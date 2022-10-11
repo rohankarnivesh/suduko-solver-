@@ -1,5 +1,4 @@
 
-// Hardcoded, minimizes need for dynamic code later
 var square_coordinates = [
     [1, 1, 1, 2, 2, 2, 3, 3, 3],
     [1, 1, 1, 2, 2, 2, 3, 3, 3],
@@ -13,12 +12,10 @@ var square_coordinates = [
 ]
 
 function get_row(board, row) {
-    // Given a board, we can return a single row
     return board[row]
 }
 
 function get_column(board, column) {
-    // Given a board, we iterate the rows to return a column
     var col = []
     for (let row = 0; row < 9; row++) {
         col.push(board[row][column]);
@@ -47,7 +44,6 @@ function complete_cell(board, r, c) {
         }
     }
     if (possibilities.length == 1) {
-        // If there is only one valid possibility, fill it in
         board[r][c] = possibilities[0]
         return true
     } else {
@@ -146,8 +142,6 @@ function backtrack_based(orig_board) {
 }
 
 // Constraint based pass.
-// Apply the rules of Sudoku and mark up the cells we are
-// 100% can only be a single value.
 function one_value_cell_constraint(board) {
 
     // Set to false at the start of the loop
@@ -192,17 +186,6 @@ function solve(board) {
 
     let updated = true, solved = false
 
-    /* 
-        Easy-Hard are solved via iterations where we look at the current
-        board and fill in any 100% guaranteed cells. We keep using the
-        same board, and fill in the gaps until solved.
-        
-        Always do this first.  We can make the board simpler, even if we
-        are unable to crack it entirely this way.
-
-        Tests show doing this FIRST is quicker for Hard-Evil sudoko as it
-        removes the number of blank cells ahead of the brute force.
-    */
     while (updated && !solved) {
         updated = one_value_cell_constraint(board)
         solved = is_solved(board)
